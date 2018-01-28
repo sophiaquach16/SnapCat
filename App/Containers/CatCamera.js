@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { BackHandler, Text, Image, View, Dimensions, StyleSheet, Alert, Button } from 'react-native'
 import Camera from 'react-native-camera';
 import { Images } from '../Themes'
+import RNFS from 'react-native-fs'
 
 export default class CatCamera extends Component {
   componentWillMount() {
@@ -12,38 +13,39 @@ export default class CatCamera extends Component {
     });
   }
   sendPicture(photo) {
-    let data = new FormData();
-    data.append('name', 'newPhoto');
-    data.append('photo', {
-      uri: photo.path,
-      type: 'image/jpg',
-      name: 'random.jpg'
-
-    });
-    data.append("location": {
-        "latitude": "23.234",
-        "longitude": "23.765"
-    });
-    data.append("submited_by": "placeholderperson")
-    /*let data = {
+    let file = photo.path;
+    let photoBinary = null;
+    RNFS.readFile(file, 'base64')
+    .then(res => { 
+      console.log('read ok')
+      photoBinary = res;
+    })
+    .catch(err => {
+      console.log('read error')
+      console.log(err)
+    })
+    let data = {
       "location": {
-        "latitude": "23.234",
-        "longitude": "23.765"
+        "latitude": "53.234",
+        "longitude": "53.765"
       },
-      "photo": photo.path,
-      "submited_by": "placeholderperson"
-    }*/
+      "photo": photoBinary,
+      "submited_by": "ihopethismakesit"
+    }
     console.debug('send picture?');
+    console.debug(photoBinary);
     fetch('https://shielded-journey-70465.herokuapp.com/submitCat', {
       method: 'post',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: data
+      body: JSON.stringify(data)
     }).then(res => {
       console.debug(res)
     });
   }
+
+
 
   takePicture() {
    const { navigate } = this.props.navigation;
