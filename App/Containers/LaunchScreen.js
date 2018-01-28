@@ -4,8 +4,8 @@ import { ScrollView, Text, Image, View, Button } from 'react-native'
 import DevscreensButton from '../../ignite/DevScreens/DevscreensButton.js'
 import DrawerButton from '../Components/DrawerButton.js'
 import { Images } from '../Themes'
-import Swiper from '/Users/sophiaquach16/SnapCat/node_modules/react-native-drawer-layout-polyfill/dist/SwipeCards.js'
-// Styles
+import Swiper from 'SnapCat/node_modules/react-native-drawer-layout-polyfill/dist/SwipeCards.js'
+
 import styles from './Styles/LaunchScreenStyles'
 
 export default class LaunchScreen extends Component {
