@@ -20,9 +20,6 @@ export default class DevscreensButton extends React.Component {
     if (DebugConfig.showDevScreens) {
       return (
         <View>
-          <RoundedButton onPress={this.toggleModal}>
-            open YO MAMA
-          </RoundedButton>
           <Modal
             visible={this.state.showModal}
             onRequestClose={this.toggleModal}>
