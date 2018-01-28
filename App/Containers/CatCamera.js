@@ -3,7 +3,6 @@ import { BackHandler, Text, Image, View, Dimensions, StyleSheet, Alert, Button }
 import Camera from 'react-native-camera';
 import { Images } from '../Themes'
 
-
 export default class CatCamera extends Component {
   componentWillMount() {
     const { goBack } = this.props.navigation;
@@ -12,6 +11,40 @@ export default class CatCamera extends Component {
       return true;
     });
   }
+  sendPicture(photo) {
+    let data = new FormData();
+    data.append('name', 'newPhoto');
+    data.append('photo', {
+      uri: photo.path,
+      type: 'image/jpg',
+      name: 'random.jpg'
+
+    });
+    data.append("location": {
+        "latitude": "23.234",
+        "longitude": "23.765"
+    });
+    data.append("submited_by": "placeholderperson")
+    /*let data = {
+      "location": {
+        "latitude": "23.234",
+        "longitude": "23.765"
+      },
+      "photo": photo.path,
+      "submited_by": "placeholderperson"
+    }*/
+    console.debug('send picture?');
+    fetch('https://shielded-journey-70465.herokuapp.com/submitCat', {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: data
+    }).then(res => {
+      console.debug(res)
+    });
+  }
+
   takePicture() {
    const { navigate } = this.props.navigation;
    this.camera.capture()
@@ -19,6 +52,8 @@ export default class CatCamera extends Component {
         (data) => {
           console.debug('Taking a picture')
           console.debug(data.path);
+          console.debug(JSON.stringify(data));
+          this.sendPicture(data)
           navigate('LaunchScreen')
         }
       )

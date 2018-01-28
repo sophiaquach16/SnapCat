@@ -8,6 +8,17 @@ import { Images } from '../Themes'
 import styles from './Styles/LaunchScreenStyles'
 
 export default class LaunchScreen extends Component {
+  getMoviesFromApiAsync() {
+    return fetch('https://facebook.github.io/react-native/movies.json')
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.debug('huhuhuhu')
+        return responseJson.movies;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
   render () {
     const { navigate } = this.props.navigation;
     return ( 
@@ -17,7 +28,7 @@ export default class LaunchScreen extends Component {
           <View style={styles.centered}>
              <Image source={Images.cat} style={{height: 250, width: 250, marginTop: 30}} />
               <Button
-                onPress={() => console.log('hi')}
+                onPress={() => this.getMoviesFromApiAsync()}
                 title="Meow!"
                 color="#841584"
                 accessibilityLabel="Learn more about this purple button"
