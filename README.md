@@ -14,6 +14,8 @@
 **Step 3:** Install the Application with `yarn` or `npm i`
 
 ## If you pulled recently:
+Run `npm i`
+
 `cd node_modules/react-native-camera`
 Then remove the `PropTypes` from the 'react' import
 
