@@ -1,4 +1,6 @@
 #  SnapCat
+
+
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](http://standardjs.com/)
 
 * Standard compliant React Native App Utilizing [Ignite](https://github.com/infinitered/ignite)
@@ -11,11 +13,18 @@
 
 **Step 3:** Install the Application with `yarn` or `npm i`
 
+## If you pulled recently:
+`cd node_modules/react-native-camera`
+Then remove the `PropTypes` from the 'react' import
+
+On the next line, write ``import PropTypes from 'prop-types';
+
 
 ## :arrow_forward: How to Run App
 
 1. cd to the repo
-2. Run Build for either OS
+2. In one terminal, run`npm start`
+3. Run Build for either OS
   * for iOS
     * run `react-native run-ios`
   * for Android
