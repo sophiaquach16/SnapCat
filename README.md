@@ -17,7 +17,7 @@
 `cd node_modules/react-native-camera`
 Then remove the `PropTypes` from the 'react' import
 
-On the next line, write ``import PropTypes from 'prop-types';
+On the next line, write `import PropTypes from 'prop-types';`
 
 
 ## :arrow_forward: How to Run App
