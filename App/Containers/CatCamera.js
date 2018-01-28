@@ -24,11 +24,12 @@ export default class CatCamera extends Component {
           "latitude": "53.234",
           "longitude": "53.765"
         },
-        "photo": photoString,
-        "submited_by": "ihopethismakesit"
+        "submited_by": "username",
+        "photo": photoString
       }
     })
     .then(jsonPayload => {
+      console.debug(JSON.stringify(jsonPayload.photo));
       fetch('https://shielded-journey-70465.herokuapp.com/submitCat', {
           method: 'post',
           headers: {
@@ -71,6 +72,7 @@ export default class CatCamera extends Component {
              this.camera = cam;
           }}
           style={styles.preview}
+          captureQuality={Camera.constants.CaptureQuality.low}
           aspect={Camera.constants.Aspect.fill}>
              <Button title="CLICK" style={styles.capture} onPress={this.takePicture.bind(this)}>
              </Button>
