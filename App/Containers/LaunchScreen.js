@@ -4,6 +4,7 @@ import { ScrollView, Text, Image, View, Button } from 'react-native'
 import DevscreensButton from '../../ignite/DevScreens/DevscreensButton.js'
 import DrawerButton from '../Components/DrawerButton.js'
 import { Images } from '../Themes'
+import Login from './Login.js'
 // Styles
 import styles from './Styles/LaunchScreenStyles'
 
@@ -22,6 +23,7 @@ export default class LaunchScreen extends Component {
                 color="#841584"
                 accessibilityLabel="Learn more about this purple button"
               />
+              <Login/>
           </View>
 
           <View style={styles.section} >
