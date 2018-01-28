@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { BackHandler, Text, Image, View, Dimensions, StyleSheet, Alert, Button } from 'react-native'
 import Camera from 'react-native-camera';
 import { Images } from '../Themes'
-
+import RNFS from 'react-native-fs'
 
 export default class CatCamera extends Component {
   componentWillMount() {
@@ -12,6 +12,44 @@ export default class CatCamera extends Component {
       return true;
     });
   }
+  sendPicture(photo) {
+    let file = photo.path;
+    let photoBinary = null;
+    let data = {};
+    RNFS.readFile(file, 'base64')
+    .then(photoBinary => photoBinary.toString())
+    .then(photoString => {
+      return {
+        "location": {
+          "latitude": "53.234",
+          "longitude": "53.765"
+        },
+        "submited_by": "username",
+        "photo": photoString
+      }
+    })
+    .then(jsonPayload => {
+      console.debug(JSON.stringify(jsonPayload.photo));
+      fetch('https://shielded-journey-70465.herokuapp.com/submitCat', {
+          method: 'post',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(jsonPayload)
+        })
+      .then(res => {
+          console.debug(res)
+        });
+    })
+    .catch(err => {
+      console.log('read error')
+      console.log(err)
+    })
+    console.debug('send picture?');
+  }
+
+
+
   takePicture() {
    const { navigate } = this.props.navigation;
    this.camera.capture()
@@ -19,6 +57,8 @@ export default class CatCamera extends Component {
         (data) => {
           console.debug('Taking a picture')
           console.debug(data.path);
+          console.debug(JSON.stringify(data));
+          this.sendPicture(data)
           navigate('LaunchScreen')
         }
       )
@@ -32,6 +72,7 @@ export default class CatCamera extends Component {
              this.camera = cam;
           }}
           style={styles.preview}
+          captureQuality={Camera.constants.CaptureQuality.low}
           aspect={Camera.constants.Aspect.fill}>
              <Button title="CLICK" style={styles.capture} onPress={this.takePicture.bind(this)}>
              </Button>
