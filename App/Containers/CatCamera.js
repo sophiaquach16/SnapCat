@@ -15,34 +15,36 @@ export default class CatCamera extends Component {
   sendPicture(photo) {
     let file = photo.path;
     let photoBinary = null;
+    let data = {};
     RNFS.readFile(file, 'base64')
-    .then(res => { 
-      console.log('read ok')
-      photoBinary = res;
+    .then(photoBinary => photoBinary.toString())
+    .then(photoString => {
+      return {
+        "location": {
+          "latitude": "53.234",
+          "longitude": "53.765"
+        },
+        "photo": photoString,
+        "submited_by": "ihopethismakesit"
+      }
+    })
+    .then(jsonPayload => {
+      fetch('https://shielded-journey-70465.herokuapp.com/submitCat', {
+          method: 'post',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(jsonPayload)
+        })
+      .then(res => {
+          console.debug(res)
+        });
     })
     .catch(err => {
       console.log('read error')
       console.log(err)
     })
-    let data = {
-      "location": {
-        "latitude": "53.234",
-        "longitude": "53.765"
-      },
-      "photo": photoBinary,
-      "submited_by": "ihopethismakesit"
-    }
     console.debug('send picture?');
-    console.debug(photoBinary);
-    fetch('https://shielded-journey-70465.herokuapp.com/submitCat', {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    }).then(res => {
-      console.debug(res)
-    });
   }
 
 
